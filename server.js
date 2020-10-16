@@ -2,7 +2,14 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 const PORT = 5000 || process.env.PORT;
+const auth = require("./routes/api/auth");
+
+// Body Parsor Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Connect to Database
 mongoose
@@ -19,9 +26,14 @@ mongoose
     console.log(err);
   });
 
-app.get("/", (req, res) => {
-  res.send("Hello From Server");
-});
+// Morgan Middleware
+app.use(morgan("dev"));
+
+// Cookie Parser Middleware
+app.use(cookieParser());
+
+// Routes Middleware
+app.use("/api/auth", auth);
 
 // Listening on Port 5000
 app.listen(PORT, (req, res) => {
