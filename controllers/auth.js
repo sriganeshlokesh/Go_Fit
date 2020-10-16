@@ -130,4 +130,5 @@ exports.isAdmin = (req, res, next) => {
       errors: "Access Denied. Admin Only",
     });
   }
+  next();
 };
