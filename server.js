@@ -8,10 +8,11 @@ const PORT = 5000 || process.env.PORT;
 const auth = require("./routes/api/auth");
 const teacher = require("./routes/api/teacher");
 const slot = require("./routes/api/slots");
+const classes = require("./routes/api/class");
 
 // Body Parsor Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 // Connect to Database
 mongoose
@@ -38,6 +39,10 @@ app.use(cookieParser());
 app.use("/api/auth", auth);
 app.use("/api/teacher", teacher);
 app.use("/api/slot", slot);
+app.use("/api/class", classes);
+
+// Static Middleware
+app.use(express.static("public"));
 
 // Listening on Port 5000
 app.listen(PORT, (req, res) => {

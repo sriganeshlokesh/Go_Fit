@@ -18,9 +18,11 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.9",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "nodemon": "^2.0.5",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "safe-buffer": "^5.2.1",
     "uuid": "^8.3.1",
     "validator": "^13.1.17"
   }
