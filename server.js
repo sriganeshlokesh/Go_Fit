@@ -9,6 +9,7 @@ const auth = require("./routes/api/auth");
 const teacher = require("./routes/api/teacher");
 const slot = require("./routes/api/slots");
 const classes = require("./routes/api/class");
+const blog = require("./routes/api/blog");
 
 // Body Parsor Middleware
 app.use(express.json());
@@ -40,6 +41,7 @@ app.use("/api/auth", auth);
 app.use("/api/teacher", teacher);
 app.use("/api/slot", slot);
 app.use("/api/class", classes);
+app.use("/api/blog", blog);
 
 // Static Middleware
 app.use(express.static("public"));
