@@ -14,8 +14,8 @@ const classSchema = mongoose.Schema(
       ref: "Teacher",
       required: true,
     },
-    slots: {
-      type: [ObjectId],
+    slot: {
+      type: ObjectId,
       ref: "Slot",
       required: true,
     },

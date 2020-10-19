@@ -76,7 +76,7 @@ exports.createClass = (req, res) => {
     const newClass = new Class({
       name: req.body.name,
       teacher: req.body.teacher,
-      slots: req.body.slots,
+      slot: req.body.slot,
       capacity: req.body.capacity,
       image: publicUrl,
       duration: req.body.duration,
@@ -123,7 +123,7 @@ exports.updateClass = (req, res) => {
     const updates = {
       name: req.body.name,
       teacher: req.body.teacher,
-      slots: req.body.slots,
+      slot: req.body.slot,
       capacity: req.body.capacity,
       image: publicUrl,
       duration: req.body.duration,
