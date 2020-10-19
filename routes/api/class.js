@@ -14,17 +14,12 @@ const { protect, isAdmin, isAuth } = require("../../controllers/auth");
 const { userById } = require("../../controllers/user");
 
 // Creating Storage for Multer
-let storage = multer.diskStorage({
-  destination: function (req, res, cb) {
-    cb(null, "public");
-  },
-  filename: function (req, file, cb) {
-    const parts = file.mimetype.split("/");
-    cb(null, `${file.fieldname}-${Date.now()}.${parts[1]}`);
+let upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
   },
 });
-
-let upload = multer({ storage: storage });
 
 // @route GET /api/class/:classId
 // @desc Get class route

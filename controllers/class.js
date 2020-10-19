@@ -2,6 +2,15 @@ const Class = require("../models/Class");
 const multer = require("multer");
 const fs = require("fs");
 const Buffer = require("safe-buffer").Buffer;
+const { Storage } = require("@google-cloud/storage");
+
+// Initialize Google Cloud Storage
+const storage = new Storage({
+  projectId: process.env.GCLOUD_PROJECT_ID,
+  keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS,
+});
+
+const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
 
 // Get Class By Id
 exports.classById = (req, res, next, id) => {
@@ -41,67 +50,99 @@ exports.getImage = (req, res, next) => {
 
 // Create a Class
 exports.createClass = (req, res) => {
-  let img = fs.readFileSync(req.file.path);
-  let encode_image = img.toString("base64");
-  let finalImg = {
-    contentType: req.file.mimetype,
-    data: Buffer.from(encode_image, "base64"),
-  };
+  if (!req.file) {
+    res.status(400).json({
+      errors: "Could not upload image",
+    });
+  }
+  // Create new blob in the bucket referencing the file
+  const blob = bucket.file(req.file.originalname);
 
-  const newClass = new Class({
-    name: req.body.name,
-    teacher: req.body.teacher,
-    slots: req.body.slots,
-    capacity: req.body.capacity,
-    image: finalImg,
-    duration: req.body.duration,
-    description: req.body.description,
+  // initialize a writable stream
+  const blobStream = blob.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype,
+    },
   });
-  newClass
-    .save()
-    .then((data) => {
-      if (!data) {
-        return res.status(400).json({
-          errors: "Class not created",
-        });
-      } else {
-        data.image = undefined;
-        return res.json(data);
-      }
-    })
-    .catch((err) => console.log(err));
+
+  // Check for errors in Writestream object
+  blobStream.on("error", (err) => next(err));
+
+  blobStream.on("finish", () => {
+    // Assembling public URL for accessing the file via HTTP
+    const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
+      bucket.name
+    }/o/${encodeURI(blob.name)}?alt=media`;
+    const newClass = new Class({
+      name: req.body.name,
+      teacher: req.body.teacher,
+      slots: req.body.slots,
+      capacity: req.body.capacity,
+      image: publicUrl,
+      duration: req.body.duration,
+      description: req.body.description,
+    });
+    newClass
+      .save()
+      .then((data) => {
+        if (!data) {
+          return res.status(400).json({
+            errors: "Class not created",
+          });
+        } else {
+          return res.json(data);
+        }
+      })
+      .catch((err) => console.log(err));
+  });
+
+  // When there is no more data to be consumed from the stream
+  blobStream.end(req.file.buffer);
 };
 
 // Update Class
 exports.updateClass = (req, res) => {
-  let updates = {
-    name: req.body.name,
-    teacher: req.body.teacher,
-    slots: req.body.slots,
-    capacity: req.body.capacity,
-    duration: req.body.duration,
-    description: req.body.description,
-  };
-  if (req.file) {
-    let img = fs.readFileSync(req.file.path);
-    let encode_image = img.toString("base64");
-    let finalImg = {
+  // Create new blob in the bucket referencing the file
+  const blob = bucket.file(req.file.originalname);
+
+  // initialize a writable stream
+  const blobStream = blob.createWriteStream({
+    metadata: {
       contentType: req.file.mimetype,
-      data: Buffer.from(encode_image, "base64"),
-    };
-    updates.image = finalImg;
-  }
-  const options = { _id: req.class._id };
-  Class.updateOne(options, updates).then((data) => {
-    if (!data) {
-      return res.status(400).json({
-        errors: "Not Updated",
-      });
-    } else {
-      data.image = undefined;
-      return res.json(data);
-    }
+    },
   });
+
+  // Check for errors in Writestream object
+  blobStream.on("error", (err) => next(err));
+
+  blobStream.on("finish", () => {
+    // Assembling public URL for accessing the file via HTTP
+    const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
+      bucket.name
+    }/o/${encodeURI(blob.name)}?alt=media`;
+    const updates = {
+      name: req.body.name,
+      teacher: req.body.teacher,
+      slots: req.body.slots,
+      capacity: req.body.capacity,
+      image: publicUrl,
+      duration: req.body.duration,
+      description: req.body.description,
+    };
+    const options = { _id: req.class._id };
+    Class.updateOne(options, updates).then((data) => {
+      if (!data) {
+        return res.status(400).json({
+          errors: "Not Updated",
+        });
+      } else {
+        return res.json(data);
+      }
+    });
+  });
+
+  // When there is no more data to be consumed from the stream
+  blobStream.end(req.file.buffer);
 };
 
 // Delete Class

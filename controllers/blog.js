@@ -2,6 +2,15 @@ const Blog = require("../models/Blog");
 const multer = require("multer");
 const fs = require("fs");
 const Buffer = require("safe-buffer").Buffer;
+const { Storage } = require("@google-cloud/storage");
+
+// Initialize Google Cloud Storage
+const storage = new Storage({
+  projectId: process.env.GCLOUD_PROJECT_ID,
+  keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS,
+});
+
+const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
 
 // Get Blog By Id
 exports.blogById = (req, res, next, id) => {
@@ -34,57 +43,93 @@ exports.getImage = (req, res, next) => {
 
 // Create a Blog
 exports.createBlog = (req, res) => {
-  let img = fs.readFileSync(req.file.path);
-  let encode_image = img.toString("base64");
-  let finalImg = {
-    contentType: req.file.mimetype,
-    data: Buffer.from(encode_image, "base64"),
-  };
-  const blog = new Blog({
-    name: req.body.name,
-    image: finalImg,
-    description1: req.body.description1,
-    description2: req.body.description2,
+  if (!req.file) {
+    res.status(400).json({
+      errors: "Could not upload image",
+    });
+  }
+  // Create new blob in the bucket referencing the file
+  const blob = bucket.file(req.file.originalname);
+
+  // initialize a writable stream
+  const blobStream = blob.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype,
+    },
   });
-  blog.save().then((blog) => {
-    if (!blog) {
-      return res.status(400).json({
-        errors: "Blog not created",
-      });
-    } else {
-      blog.image = undefined;
-      return res.json(blog);
-    }
+
+  // Check for errors in Writestream object
+  blobStream.on("error", (err) => next(err));
+
+  blobStream.on("finish", () => {
+    // Assembling public URL for accessing the file via HTTP
+    const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
+      bucket.name
+    }/o/${encodeURI(blob.name)}?alt=media`;
+    const blog = new Blog({
+      name: req.body.name,
+      description1: req.body.description1,
+      description2: req.body.description2,
+      image: publicUrl,
+    });
+    blog
+      .save()
+      .then((blog) => {
+        if (!blog) {
+          return res.status(400).json({
+            errors: "Blog not created",
+          });
+        } else {
+          return res.json(blog);
+        }
+      })
+      .catch((err) => console.log(err));
   });
+
+  // When there is no more data to be consumed from the stream
+  blobStream.end(req.file.buffer);
 };
 
 // Update Blog
 exports.updateBlog = (req, res) => {
-  let updates = {
-    name: req.body.name,
-    description1: req.body.description1,
-    description2: req.body.description2,
-  };
-  if (req.file) {
-    let img = fs.readFileSync(req.file.path);
-    let encode_image = img.toString("base64");
-    let finalImg = {
+  // Create new blob in the bucket referencing the file
+  const blob = bucket.file(req.file.originalname);
+
+  // initialize a writable stream
+  const blobStream = blob.createWriteStream({
+    metadata: {
       contentType: req.file.mimetype,
-      data: Buffer.from(encode_image, "base64"),
-    };
-    updates.image = finalImg;
-  }
-  const options = { _id: req.blog._id };
-  Blog.updateOne(options, updates).then((blog) => {
-    if (!blog) {
-      return res.status(400).json({
-        errors: "Blog Not Updated",
-      });
-    } else {
-      blog.image = undefined;
-      return res.json(blog);
-    }
+    },
   });
+
+  // Check for errors in Writestream object
+  blobStream.on("error", (err) => next(err));
+
+  blobStream.on("finish", () => {
+    // Assembling public URL for accessing the file via HTTP
+    const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
+      bucket.name
+    }/o/${encodeURI(blob.name)}?alt=media`;
+    let updates = {
+      name: req.body.name,
+      description1: req.body.description1,
+      description2: req.body.description2,
+      image: publicUrl,
+    };
+    const options = { _id: req.blog._id };
+    Blog.updateOne(options, updates).then((blog) => {
+      if (!blog) {
+        return res.status(400).json({
+          errors: "Blog Not Updated",
+        });
+      } else {
+        return res.json(blog);
+      }
+    });
+  });
+
+  // When there is no more data to be consumed from the stream
+  blobStream.end(req.file.buffer);
 };
 
 // Delete Blog
