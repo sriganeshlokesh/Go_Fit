@@ -1,7 +1,6 @@
 const Class = require("../models/Class");
 const multer = require("multer");
 const fs = require("fs");
-const Buffer = require("safe-buffer").Buffer;
 const { Storage } = require("@google-cloud/storage");
 
 // Initialize Google Cloud Storage
@@ -27,25 +26,15 @@ exports.classById = (req, res, next, id) => {
 
 // Get a Class
 exports.getClass = (req, res) => {
-  if (req.class) {
-    let _class = req.class;
-    _class.image = undefined;
-    return res.json(_class);
-  } else {
-    return res.json({
-      message: "Class Does Not Exist",
+  Class.findById(req.params.classId)
+    .populate("teacher slot")
+    .exec((err, data) => {
+      if (err) {
+        return res.status(400).json(err);
+      } else {
+        return res.json(data);
+      }
     });
-  }
-};
-
-// Get class image
-exports.getImage = (req, res, next) => {
-  console.log(req.class);
-  if (req.class.image.data) {
-    res.set("Content-Type", req.class.image.contentType);
-    return res.send(req.class.image.data);
-  }
-  next();
 };
 
 // Create a Class
@@ -73,10 +62,13 @@ exports.createClass = (req, res) => {
     const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
       bucket.name
     }/o/${encodeURI(blob.name)}?alt=media`;
+    const date = new Date(req.body.date);
     const newClass = new Class({
       name: req.body.name,
       teacher: req.body.teacher,
       slot: req.body.slot,
+      day: req.body.day,
+      date: date,
       capacity: req.body.capacity,
       image: publicUrl,
       duration: req.body.duration,
@@ -120,16 +112,20 @@ exports.updateClass = (req, res) => {
     const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
       bucket.name
     }/o/${encodeURI(blob.name)}?alt=media`;
+
+    const options = { _id: req.class._id };
+    const date = new Date(req.body.date);
     const updates = {
       name: req.body.name,
       teacher: req.body.teacher,
       slot: req.body.slot,
+      day: req.body.date,
+      date: date,
       capacity: req.body.capacity,
       image: publicUrl,
       duration: req.body.duration,
       description: req.body.description,
     };
-    const options = { _id: req.class._id };
     Class.updateOne(options, updates).then((data) => {
       if (!data) {
         return res.status(400).json({
@@ -163,12 +159,44 @@ exports.deleteClass = (req, res) => {
 
 // Get All Classes
 exports.getAllClasses = (req, res) => {
-  Class.find().exec((err, classes) => {
-    if (err) {
+  let errors = {};
+  let order = req.query.order ? req.query.order : "asc";
+  let limit = req.query.limit ? req.query.limit : 6;
+  Class.find()
+    .populate("teacher slot")
+    .sort([[order]])
+    .limit(limit)
+    .exec((err, classes) => {
+      if (err) {
+        errors.class = "Classes not found";
+        return res.status(400).json(errors);
+      }
+      return res.json(classes);
+    });
+};
+
+// Decrease Class Capacity after Booking Appointment
+exports.decreaseCapacity = (req, res, next) => {
+  const id = req.body.appointment.class;
+  Class.updateOne({ _id: id }, { $inc: { capacity: -1 } }).then((data) => {
+    if (!data) {
       return res.status(400).json({
-        errors: err,
+        errors: "Not Updated",
       });
     }
-    return res.json(classes);
+    next();
+  });
+};
+
+// Increase Class Capacity after Cancelling Appointment
+exports.increaseCapacity = (req, res, next) => {
+  const id = req.params.classId;
+  Class.updateOne({ _id: id }, { $inc: { capacity: 1 } }).then((data) => {
+    if (!data) {
+      return res.status(400).json({
+        errors: "Not Updated",
+      });
+    }
+    next();
   });
 };

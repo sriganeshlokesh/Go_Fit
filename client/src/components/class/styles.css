@@ -1,0 +1,118 @@
+.container {
+  width: 100%;
+  max-width: 1150px;
+  margin: auto;
+}
+
+.class-page {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.class-heading {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+  margin-top: 20px;
+}
+
+.class-heading h2 {
+  color: #ffffff;
+  font-size: 55px;
+}
+
+.class-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, 0.1fr);
+  margin: 20px 0;
+}
+
+.class-info .class-time {
+  margin: 20px 0;
+}
+
+.class-info .day-time {
+  display: flex;
+}
+
+.class-info .day-time p {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.class-info .class-address {
+  margin: 10px 0;
+}
+
+.class-info .class-join {
+  margin: 20px 0;
+}
+
+.class-info .instructor-details h3 {
+  margin: 10px 0;
+}
+
+.class-info .about-instructor {
+  display: flex;
+}
+
+.class-info .about-instructor .img-instructor {
+  margin: 10px 0;
+  border-radius: 50%;
+  width: 123px;
+  height: 121px;
+}
+
+.class-info .about-instructor .name-instructor {
+  display: grid;
+  grid-template-rows: repeat(2, 0.2fr);
+  justify-content: center;
+  align-content: center;
+}
+
+.class-info .about-instructor .name-instructor .social-info ul {
+  display: flex;
+}
+
+.class-info .about-instructor .name-instructor .social-info li {
+  margin-top: 10px;
+  margin-right: 20px;
+}
+
+.class-page .class-desc {
+  width: 100%;
+  max-width: 700px;
+}
+
+.class-page .class-desc .class-image {
+  margin-top: 20px;
+  margin-left: 40px;
+  width: 100%;
+}
+
+.class-page .class-desc .day-time {
+  display: flex;
+}
+.class-page .class-desc .day-time p {
+  margin-top: 10px;
+  margin-left: 40px;
+  margin-bottom: 10px;
+}
+
+.class-page .class-desc h2 {
+  margin-left: 40px;
+  font-size: 50px;
+  font-weight: 100;
+}
+.class-page .class-desc p {
+  margin-left: 40px;
+  text-align: justify;
+  margin-bottom: 50px;
+}

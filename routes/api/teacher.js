@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 
 const {
   teacherById,
@@ -12,6 +13,14 @@ const {
 const { protect, isAdmin, isAuth } = require("../../controllers/auth");
 const { userById } = require("../../controllers/user");
 
+// Creating Storage for Multer
+let upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+});
+
 // @route GET /api/teacher/:teacherId
 // @desc Get teacher route
 // @access Private
@@ -20,7 +29,14 @@ router.get("/:teacherId", getTeacher);
 // @route POST /api/teacher/create
 // @desc Create teacher route
 // @access Private
-router.post("/create/:id", protect, isAuth, isAdmin, createTeacher);
+router.post(
+  "/create/:id",
+  upload.single("image"),
+  protect,
+  isAuth,
+  isAdmin,
+  createTeacher
+);
 
 // @route PUT /api/teacher/:teacherId/:id
 // @desc Update teacher route

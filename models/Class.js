@@ -19,6 +19,14 @@ const classSchema = mongoose.Schema(
       ref: "Slot",
       required: true,
     },
+    day: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
     capacity: {
       type: Number,
       required: true,

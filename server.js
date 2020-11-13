@@ -3,6 +3,7 @@ const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const PORT = 5000 || process.env.PORT;
 const auth = require("./routes/api/auth");
@@ -10,10 +11,11 @@ const teacher = require("./routes/api/teacher");
 const slot = require("./routes/api/slots");
 const classes = require("./routes/api/class");
 const blog = require("./routes/api/blog");
+const appointment = require("./routes/api/appointment");
 
 // Body Parsor Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect to Database
 mongoose
@@ -42,6 +44,7 @@ app.use("/api/teacher", teacher);
 app.use("/api/slot", slot);
 app.use("/api/class", classes);
 app.use("/api/blog", blog);
+app.use("/api/appointment", appointment);
 
 // Static Middleware
 app.use(express.static("public"));

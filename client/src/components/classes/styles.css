@@ -1,0 +1,37 @@
+/* Class Cards */
+.class-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.class-cards img {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.class-cards h3 {
+  margin-bottom: 5px;
+}
+
+.class-cards a {
+  display: inline-block;
+  padding-top: 10px;
+  color: #0067b8;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.class-cards a:hover i {
+  margin-left: 10px;
+}
+
+.class-cards .class-timing {
+  display: flex;
+}
+
+.class-cards .class-timing h6 {
+  margin-right: 20px;
+}

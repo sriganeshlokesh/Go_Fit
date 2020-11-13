@@ -28,7 +28,6 @@ exports.blogById = (req, res, next, id) => {
 // Get a Blog
 exports.getBlog = (req, res) => {
   const blog = req.blog;
-  blog.image = undefined;
   return res.json(blog);
 };
 
@@ -68,8 +67,11 @@ exports.createBlog = (req, res) => {
     }/o/${encodeURI(blob.name)}?alt=media`;
     const blog = new Blog({
       name: req.body.name,
+      author: req.body.author,
       description1: req.body.description1,
       description2: req.body.description2,
+      description3: req.body.description3,
+      description4: req.body.description4,
       image: publicUrl,
     });
     blog
@@ -110,14 +112,9 @@ exports.updateBlog = (req, res) => {
     const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
       bucket.name
     }/o/${encodeURI(blob.name)}?alt=media`;
-    let updates = {
-      name: req.body.name,
-      description1: req.body.description1,
-      description2: req.body.description2,
-      image: publicUrl,
-    };
+
     const options = { _id: req.blog._id };
-    Blog.updateOne(options, updates).then((blog) => {
+    Blog.updateOne(options, req.body).then((blog) => {
       if (!blog) {
         return res.status(400).json({
           errors: "Blog Not Updated",

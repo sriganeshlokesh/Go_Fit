@@ -26,11 +26,6 @@ let upload = multer({
 // @access Private
 router.get("/:classId", getClass);
 
-// @route GET /api/class/image/:classId
-// @desc Get class image route
-// @access Private
-router.get("/image/:classId", getImage);
-
 // @route POST /api/class/create
 // @desc Create class route
 // @access Private
