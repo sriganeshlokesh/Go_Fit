@@ -1,7 +1,9 @@
 const Class = require("../models/Class");
+const User = require("../models/User");
 const multer = require("multer");
 const fs = require("fs");
 const { Storage } = require("@google-cloud/storage");
+const { HistoryItem } = require("../models/Appointment");
 
 // Initialize Google Cloud Storage
 const storage = new Storage({
@@ -175,16 +177,47 @@ exports.getAllClasses = (req, res) => {
     });
 };
 
+// Add Appointment to Booking Array
+exports.appointmentToBooking = (req, res, next) => {
+  let booking = [];
+  let historyItem = new HistoryItem({
+    user: req.params.id,
+  });
+  booking.push(historyItem);
+  Class.findByIdAndUpdate(
+    { _id: req.params.classId },
+    { $push: { booking: booking } },
+    { new: true }
+  )
+    .then((data) => {
+      next();
+    })
+    .catch((err) => {
+      return res.status(400).json({
+        error: "Could not add appointment to booking",
+      });
+    });
+};
+
 // Decrease Class Capacity after Booking Appointment
 exports.decreaseCapacity = (req, res, next) => {
-  const id = req.body.appointment.class;
-  Class.updateOne({ _id: id }, { $inc: { capacity: -1 } }).then((data) => {
-    if (!data) {
+  Class.findOne({ booking: { user: req.params.id } }).then((data) => {
+    console.log(data);
+    if (data) {
       return res.status(400).json({
-        errors: "Not Updated",
+        error: "User has already booked the class",
+      });
+    } else {
+      const id = req.params.classId;
+      Class.updateOne({ _id: id }, { $inc: { capacity: -1 } }).then((data) => {
+        if (!data) {
+          return res.status(400).json({
+            errors: "Not Updated",
+          });
+        }
+        next();
       });
     }
-    next();
   });
 };
 

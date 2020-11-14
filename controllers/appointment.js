@@ -1,4 +1,4 @@
-const Appointment = require("../models/Appointment");
+const { Appointment } = require("../models/Appointment");
 const { v4: uuidv4 } = require("uuid");
 
 // Get Appointment By ID
@@ -14,19 +14,46 @@ exports.appointmentById = (req, res, next, id) => {
   });
 };
 
+// Get Appointment
+exports.getAppointment = (req, res) => {
+  Appointment.findById(req.params.appointmentId)
+    .populate("user class")
+    .exec((err, data) => {
+      if (err) {
+        return res.status(400).json({
+          error: err,
+        });
+      } else {
+        return res.json(data);
+      }
+    });
+};
+
 // Create Appointment
 exports.createAppointment = (req, res) => {
-  req.body.appointment.user = req.profile;
-  req.body.appointment.class = req.class;
-  const appointment = new Appointment(req.body);
-  appointment.save((err, data) => {
-    if (err) {
-      return res.status(400).json({
-        errors: err,
-      });
+  Appointment.findOne({ user: req.params.id, class: req.params.classId }).then(
+    (data) => {
+      if (data) {
+        return res.status(400).json({
+          error: "User has already booked this class",
+        });
+      } else {
+        const booking = {
+          user: req.params.id,
+          class: req.params.classId,
+        };
+        const appointment = new Appointment(booking);
+        appointment.save((err, data) => {
+          if (err) {
+            return res.status(400).json({
+              error: err,
+            });
+          }
+          return res.json(data);
+        });
+      }
     }
-    res.json(data);
-  });
+  );
 };
 
 // Delete Appointment

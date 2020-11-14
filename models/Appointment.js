@@ -6,6 +6,7 @@ const historySchema = mongoose.Schema(
     class: {
       type: ObjectId,
       ref: "Class",
+      required: true,
     },
   },
   { timestamps: true }
@@ -18,10 +19,12 @@ const appointmentSchema = mongoose.Schema(
     user: {
       type: ObjectId,
       ref: "User",
+      required: true,
     },
     class: {
       type: ObjectId,
       ref: "Class",
+      required: true,
     },
   },
   { timestamps: true }

@@ -43,6 +43,10 @@ const classSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    booking: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

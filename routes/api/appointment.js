@@ -11,12 +11,19 @@ const {
   appointmentById,
   createAppointment,
   cancelAppointment,
+  getAppointment,
 } = require("../../controllers/appointment");
 const {
   decreaseCapacity,
   classById,
   increaseCapacity,
+  appointmentToBooking,
 } = require("../../controllers/class");
+
+// @route GET /api/appointment/:appointmentId
+// @desc Get appointment route
+// @access Private
+router.get("/:appointmentId", getAppointment);
 
 // @route POST /api/appointment/create/:id
 // @desc Create Appointment Route
@@ -25,6 +32,7 @@ router.post(
   "/create/:id/:classId",
   protect,
   isAuth,
+  appointmentToBooking,
   decreaseCapacity,
   appointmentToHistory,
   createAppointment

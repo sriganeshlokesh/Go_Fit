@@ -22,9 +22,6 @@ const Navbar = ({ history }) => {
           <li>
             <Link to="/blogs">Blogs</Link>
           </li>
-          <li>
-            <Link to="#">Book an Appointment</Link>
-          </li>
         </ul>
         <ul class="right-menu">
           {!isAuthenticated() && (

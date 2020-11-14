@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { HistoryItem } = require("../models/Appointment");
 const fs = require("fs");
 
 // Get User By Id - Middleware
@@ -31,11 +32,10 @@ exports.getAllUsers = (req, res) => {
 // Add Appointment to History
 exports.appointmentToHistory = (req, res, next) => {
   let history = [];
-  history.push({
-    _id: req.body.appointment.class,
-    name: req.profile.name,
-    class: req.class.name,
+  let historyItem = new HistoryItem({
+    class: req.body.class,
   });
+  history.push(historyItem);
   User.findByIdAndUpdate(
     { _id: req.profile._id },
     { $push: { history: history } },
