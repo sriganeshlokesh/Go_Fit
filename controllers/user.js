@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { HistoryItem } = require("../models/Appointment");
+const { HistoryItem, Appointment } = require("../models/Appointment");
 const fs = require("fs");
 
 // Get User By Id - Middleware
@@ -64,4 +64,20 @@ exports.deleteAppointmentHistory = (req, res, next) => {
     }
     next();
   });
+};
+
+// Get User History
+exports.getUserHistory = (req, res) => {
+  Appointment.find({ user: req.params.id })
+    .populate("user class")
+    .sort("-created")
+    .exec((err, booking) => {
+      if (err) {
+        return res.status(400).json({
+          errors: err,
+        });
+      } else {
+        res.json(booking);
+      }
+    });
 };

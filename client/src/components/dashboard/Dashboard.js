@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 
 const Dashboard = () => {
+  const { user, token } = isAuthenticated();
+
   const dashboardLayout = () => (
     <React.Fragment>
       <div className="cover"></div>
@@ -11,9 +13,9 @@ const Dashboard = () => {
         <div class="row justify-content-center">
           <div class="col-5" id="left">
             <div class="card" id="user">
-              <div class="card-header">Profile ID:</div>
+              <div class="card-header">Profile ID: {user._id}</div>
               <div class="card-block">
-                <h4 class="card-title">Welcome, Insert Name</h4>
+                <h4 class="card-title">Welcome, {user.name}</h4>
                 <div class="row">
                   <div class="col"></div>
                 </div>
@@ -32,10 +34,10 @@ const Dashboard = () => {
                   <div class="col-1">
                     <i class="fa fa-envelope"></i>
                   </div>
-                  <div class="col">sriganesh@gmail.com</div>
+                  <div class="col">{user.email}</div>
                 </div>
                 <div class="row mt-2">
-                  <div class="col">Joined:asdsadsad</div>
+                  <div class="col">Joined:</div>
                 </div>
               </div>
             </div>
@@ -44,7 +46,7 @@ const Dashboard = () => {
             <div class="row">
               <div class="col">
                 <div class="card" id="recentActivity">
-                  <div class="card-header">Purchase History</div>
+                  <div class="card-header">Booking History</div>
                   {/* <ul class="list-group">
                     {purchase.map((order, index) => (
                       <li class="list-group-item">

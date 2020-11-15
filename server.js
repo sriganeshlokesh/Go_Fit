@@ -12,6 +12,7 @@ const slot = require("./routes/api/slots");
 const classes = require("./routes/api/class");
 const blog = require("./routes/api/blog");
 const appointment = require("./routes/api/appointment");
+const user = require("./routes/api/user");
 
 // Body Parsor Middleware
 app.use(express.json());
@@ -45,6 +46,7 @@ app.use("/api/slot", slot);
 app.use("/api/class", classes);
 app.use("/api/blog", blog);
 app.use("/api/appointment", appointment);
+app.use("/api/user", user);
 
 // Static Middleware
 app.use(express.static("public"));
