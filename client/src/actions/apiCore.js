@@ -37,3 +37,33 @@ export const getBlog = (id) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const getBookings = (id, bookingId, token) => {
+  console.log(id);
+  console.log(bookingId);
+  console.log(token);
+  return axios
+    .get(`/api/appointment/${bookingId}/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};
+
+export const bookAppointment = (classId, id, token) => {
+  return axios
+    .post(`/api/appointment/create/${id}/${classId}`, null, {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};

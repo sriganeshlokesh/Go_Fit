@@ -27,7 +27,7 @@ const Home = () => {
       >
         <h2>Go Book your Next Appointment</h2>
         <p>Remember Why You Started</p>
-        <Link to="#" class="btn">
+        <Link to="/classes" class="btn">
           Book Appointment <i class="fa fa-chevron-right"></i>
         </Link>
       </header>
@@ -66,9 +66,9 @@ const Home = () => {
         <div class="content">
           <h2>Keep Moving With Us!</h2>
           <p>United We Move and now let's keep moving together!</p>
-          <a href="#" class="btn">
+          <Link to="/classes" class="btn">
             Book Appointment <i class="fa fa-chevron-right"></i>
-          </a>
+          </Link>
         </div>
       </section>
     </div>

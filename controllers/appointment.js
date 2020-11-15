@@ -17,7 +17,23 @@ exports.appointmentById = (req, res, next, id) => {
 // Get Appointment
 exports.getAppointment = (req, res) => {
   Appointment.findById(req.params.appointmentId)
-    .populate("user class")
+
+    .populate("user")
+
+    .populate({
+      path: "class",
+      populate: {
+        path: "teacher",
+        model: "Teacher",
+      },
+    })
+    .populate({
+      path: "class",
+      populate: {
+        path: "slot",
+        model: "Slot",
+      },
+    })
     .exec((err, data) => {
       if (err) {
         return res.status(400).json({

@@ -91,6 +91,11 @@
   max-width: 700px;
 }
 
+.class-page .booked_class {
+  display: flex;
+  flex-direction: column;
+}
+
 .class-page .class-desc .class-image {
   margin-top: 20px;
   margin-left: 40px;

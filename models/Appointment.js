@@ -12,6 +12,16 @@ const historySchema = mongoose.Schema(
   { timestamps: true }
 );
 
+const bookingSchema = mongoose.Schema({
+  user: {
+    type: ObjectId,
+    ref: "User",
+    required: true,
+  },
+});
+
+const Booking = mongoose.model("Booking", bookingSchema);
+
 const HistoryItem = mongoose.model("History", historySchema);
 
 const appointmentSchema = mongoose.Schema(
@@ -36,4 +46,4 @@ const Appointment = mongoose.model(
   "appointments"
 );
 
-module.exports = { Appointment, HistoryItem };
+module.exports = { Appointment, HistoryItem, Booking };

@@ -12,6 +12,8 @@ import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./actions/PrivateRoute";
 import Blog from "./components/blog/Blog";
 import Class from "./components/class/Class";
+import Appointment from "./components/appointment/Appointment";
+import Booking from "./components/booking/Booking";
 
 function App() {
   return (
@@ -25,7 +27,9 @@ function App() {
         <Route path="/blogs" exact component={Blogs} />
         <Route path="/blog/:blogId" exact component={Blog} />
         <Route path="/class/:classId" exact component={Class} />
+        <Route path="/appointment/:classId" exact component={Appointment} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
+        <PrivateRoute path="/success/booking" exact component={Booking} />
       </Switch>
       <Footer />
     </BrowserRouter>

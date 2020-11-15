@@ -23,7 +23,7 @@ const {
 // @route GET /api/appointment/:appointmentId
 // @desc Get appointment route
 // @access Private
-router.get("/:appointmentId", getAppointment);
+router.get("/:appointmentId/:id", protect, isAuth, getAppointment);
 
 // @route POST /api/appointment/create/:id
 // @desc Create Appointment Route

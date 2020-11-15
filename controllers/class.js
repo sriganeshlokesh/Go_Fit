@@ -3,7 +3,7 @@ const User = require("../models/User");
 const multer = require("multer");
 const fs = require("fs");
 const { Storage } = require("@google-cloud/storage");
-const { HistoryItem } = require("../models/Appointment");
+const { Booking } = require("../models/Appointment");
 
 // Initialize Google Cloud Storage
 const storage = new Storage({
@@ -180,10 +180,11 @@ exports.getAllClasses = (req, res) => {
 // Add Appointment to Booking Array
 exports.appointmentToBooking = (req, res, next) => {
   let booking = [];
-  let historyItem = new HistoryItem({
+  let bookingItem = new Booking({
     user: req.params.id,
   });
-  booking.push(historyItem);
+  console.log(bookingItem);
+  booking.push(bookingItem);
   Class.findByIdAndUpdate(
     { _id: req.params.classId },
     { $push: { booking: booking } },

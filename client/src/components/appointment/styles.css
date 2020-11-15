@@ -1,0 +1,107 @@
+.appointment-heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  height: 350px;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+.appointment-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.appointment-page .appointment-card {
+  padding: 50px;
+  height: 600px;
+  font-size: 18px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  margin-bottom: 80px;
+}
+
+.appointment-page .appointment-card i {
+  margin-right: 10px;
+}
+
+.appointment-page .appointment-card .user-card {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.appointment-page .appointment-card .user-card p {
+  margin-right: 20px;
+}
+
+.appointment-page .appointment-card .email-card {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.appointment-page .appointment-card .email-card p {
+  margin-right: 20px;
+}
+
+.appointment-page .appointment-card .class-card {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.appointment-page .appointment-card .class-card p {
+  margin-right: 20px;
+}
+
+.appointment-page .appointment-card .instructor-card {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.appointment-page .appointment-card .instructor-card p {
+  margin-right: 20px;
+}
+
+.appointment-page .appointment-card .daytime-card {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.appointment-page .appointment-card .daytime-card p {
+  margin-right: 20px;
+}
+
+.appointment-page .appointment-card .duration-card {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.appointment-page .appointment-card .duration-card p {
+  margin-right: 20px;
+}
+
+.appointment-page .appointment-card .confirm-header {
+  font-size: 25px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.appointment-page .appointment-card .booking-button {
+  display: flex;
+  justify-content: center;
+}
+
+.appointment-page .appointment-card .cancel-booking {
+  cursor: pointer;
+  display: inline-block;
+  border: 0;
+  font-weight: bold;
+  padding: 10px 20px;
+  background: #d00000;
+  color: #fff;
+  font-size: 15px;
+  margin-left: 50px;
+}

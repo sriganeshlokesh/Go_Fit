@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getClass } from "../../actions/apiCore";
+import { isAuthenticated } from "../../actions/auth";
 import "./styles.css";
 
 const Class = (props) => {
@@ -14,8 +16,10 @@ const Class = (props) => {
     day: "",
     description: "",
     duration: 0,
+    booking: [],
   });
   const id = props.match.params.classId;
+  const { user } = isAuthenticated();
   const getClassData = (classId) => {
     getClass(classId)
       .then((data) => {
@@ -30,6 +34,7 @@ const Class = (props) => {
           day: data.day,
           description: data.description,
           duration: data.duration,
+          booking: data.booking,
         });
       })
       .catch((err) => console.log(err));
@@ -37,9 +42,11 @@ const Class = (props) => {
 
   useEffect(() => {
     getClassData(id);
+    window.scrollTo(0, 0);
   }, []);
 
-  console.log(class_data.social);
+  console.log(class_data.booking.length);
+
   const classLayout = () => (
     <div>
       <header
@@ -65,7 +72,31 @@ const Class = (props) => {
                 {class_data.slot.time}
               </p>
             </div>
-            <button class="btn class-join">Join Now</button>
+            {class_data.booking &&
+              class_data.booking.map((item) => (
+                <div>
+                  {class_data.booking.length > 0 && item.user === user._id ? (
+                    <div className="booked_class">
+                      <span>You have already booked this class</span>
+                      <Link to={`/classes`} class="btn class-join">
+                        Browse Classes
+                      </Link>
+                    </div>
+                  ) : (
+                    <Link
+                      to={`/appointment/${class_data.id}`}
+                      class="btn class-join"
+                    >
+                      Join Now
+                    </Link>
+                  )}
+                </div>
+              ))}
+            {class_data.booking.length === 0 && (
+              <Link to={`/appointment/${class_data.id}`} class="btn class-join">
+                Join Now
+              </Link>
+            )}
           </div>
           <div class="instructor-details">
             <h3>About Instructor</h3>
