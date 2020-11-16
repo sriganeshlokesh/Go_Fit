@@ -14,6 +14,7 @@ const classes = require("./routes/api/class");
 const blog = require("./routes/api/blog");
 const appointment = require("./routes/api/appointment");
 const user = require("./routes/api/user");
+const path = require("path");
 
 // Body Parsor Middleware
 app.use(express.json());
@@ -65,6 +66,6 @@ if (process.env.NODE_ENV === "production") {
 app.use(express.static("public"));
 
 // Listening on Port 5000
-app.listen(PORT, process.env.HOST, (req, res) => {
+app.listen(PORT, (req, res) => {
   console.log(`Server Running on Port: ${PORT}`);
 });
