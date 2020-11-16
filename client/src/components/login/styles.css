@@ -18,8 +18,6 @@
 
 .card-signin .card-img-right {
   width: 45%;
-  /* Link to your background image using in the property below! */
-  background: scroll bottom url("");
   background-size: cover;
 }
 
@@ -28,7 +26,7 @@
 }
 
 .card-signin a {
-  color: #ef8354;
+  color: #262626;
 }
 
 .form-signin {
@@ -41,8 +39,14 @@
   font-weight: bold;
   padding: 1rem;
   transition: all 0.2s;
-  background-color: #ef8354;
+  background-color: #262626;
   color: #fff;
+}
+
+.form-signin .btn:hover {
+  background-color: #fff;
+  color: #262626;
+  box-shadow: 0 0 0 2px #262626;
 }
 
 .form-label-group {

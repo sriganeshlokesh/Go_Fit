@@ -26,6 +26,11 @@
   margin-top: 20px;
 }
 
+.showcase .btn:hover {
+  background-color: #fff;
+  color: #262626;
+}
+
 /* Captions */
 .caption {
   display: flex;
@@ -90,6 +95,11 @@
 
 .appointment .content h2 {
   margin-top: 60px;
+}
+
+.appointment .content .btn:hover {
+  background-color: #fff;
+  color: #262626;
 }
 
 .appointment p {

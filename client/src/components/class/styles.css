@@ -121,3 +121,22 @@
   text-align: justify;
   margin-bottom: 50px;
 }
+
+.class-page .class-info .btn:hover {
+  background-color: #fff;
+  color: #262626;
+  box-shadow: 0 0 0 2px #262626;
+}
+
+.class-page .class-info .login-class {
+  display: flex;
+  flex-direction: column;
+}
+
+.class-page .class-info .login-class span {
+  color: red;
+}
+
+.class-page .class-info .booked_class span {
+  color: green;
+}

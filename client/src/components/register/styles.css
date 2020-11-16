@@ -22,7 +22,6 @@
 .card-register .card-img-left {
   width: 45%;
   /* Link to your background image using in the property below! */
-  background: scroll center url("");
   background-size: cover;
 }
 
@@ -40,18 +39,18 @@
   font-weight: bold;
   padding: 1rem;
   transition: all 0.2s;
-  background-color: #ef8354;
+  background-color: #262622;
   color: #fff;
 }
 
 .form-register .btn:hover {
   background-color: #ffffff;
-  box-shadow: 0 0 0 2px #ef8354;
-  color: #ef8354;
+  box-shadow: 0 0 0 2px #262626;
+  color: #262626;
 }
 
 .form-register a {
-  color: #ef8354;
+  color: #262626;
 }
 
 .form-label-group {

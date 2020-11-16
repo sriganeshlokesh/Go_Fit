@@ -98,7 +98,12 @@ const Login = () => {
                 </Link>
               </form>
             </div>
-            <div class="card-img-right d-none d-md-flex"></div>
+            <div
+              class="card-img-right d-none d-md-flex"
+              style={{
+                background: `url(${process.env.PUBLIC_URL}/assets/login.jpg) center/cover`,
+              }}
+            ></div>
           </div>
         </div>
       </div>

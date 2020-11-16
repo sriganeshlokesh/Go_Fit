@@ -55,7 +55,12 @@ const Register = () => {
       <div class="row">
         <div class="col-lg-10 col-xl-9 mx-auto my-auto">
           <div class="card card-register flex-row my-5">
-            <div class="card-img-left d-none d-md-flex"></div>
+            <div
+              class="card-img-left d-none d-md-flex"
+              style={{
+                background: `url(${process.env.PUBLIC_URL}/assets/register.jpg) left/cover`,
+              }}
+            ></div>
             <div class="card-content">
               <h5 class="card-title text-center">Register</h5>
               <form noValidate class="form-register" onSubmit={registerUser}>

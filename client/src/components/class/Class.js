@@ -92,10 +92,19 @@ const Class = (props) => {
                   )}
                 </div>
               ))}
-            {class_data.booking.length === 0 && (
+            {isAuthenticated() && class_data.booking.length === 0 && (
               <Link to={`/appointment/${class_data.id}`} class="btn class-join">
                 Join Now
               </Link>
+            )}
+
+            {!isAuthenticated() && class_data.booking.length === 0 && (
+              <div className="login-class">
+                <span>Login to Book this Class</span>
+                <Link to={`/login`} class="btn class-join">
+                  Login
+                </Link>
+              </div>
             )}
           </div>
           <div class="instructor-details">
