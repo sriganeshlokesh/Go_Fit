@@ -65,6 +65,6 @@ if (process.env.NODE_ENV === "production") {
 app.use(express.static("public"));
 
 // Listening on Port 5000
-app.listen(PORT, (req, res) => {
+app.listen(PORT, process.env.HOST, (req, res) => {
   console.log(`Server Running on Port: ${PORT}`);
 });
