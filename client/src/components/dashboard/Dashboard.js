@@ -28,7 +28,6 @@ const Dashboard = () => {
     userHistory(user._id, token);
   }, []);
 
-  console.log(bookingHistory);
   const dashboardLayout = () => (
     <React.Fragment>
       <div className="cover"></div>

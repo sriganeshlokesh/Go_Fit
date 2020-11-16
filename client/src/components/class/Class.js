@@ -45,8 +45,6 @@ const Class = (props) => {
     window.scrollTo(0, 0);
   }, []);
 
-  console.log(class_data.booking.length);
-
   const classLayout = () => (
     <div>
       <header

@@ -63,9 +63,6 @@ export const getBlog = (id) => {
 };
 
 export const getBookings = (id, bookingId, token) => {
-  console.log(id);
-  console.log(bookingId);
-  console.log(token);
   return axios
     .get(`/api/appointment/${bookingId}/${id}`, {
       headers: {
@@ -73,7 +70,6 @@ export const getBookings = (id, bookingId, token) => {
       },
     })
     .then((res) => {
-      console.log(res.data);
       return res.data;
     })
     .catch((err) => console.log(err));

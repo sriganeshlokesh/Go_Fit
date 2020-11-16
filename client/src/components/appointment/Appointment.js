@@ -45,7 +45,6 @@ const Appointment = (props) => {
   };
 
   const redirectToHome = (bookingId) => {
-    console.log(bookingId);
     props.history.push({
       pathname: "/success/booking",
       state: {

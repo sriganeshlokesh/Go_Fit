@@ -7,7 +7,6 @@ import "./styles.css";
 const Booking = (props) => {
   const bookingId = props.location.state.id;
   const { user, token } = isAuthenticated();
-  console.log(user);
   const [booking, setBooking] = useState({
     id: "",
     user: {},
@@ -24,7 +23,6 @@ const Booking = (props) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         return res.data;
       })
       .catch((err) => console.log(err));

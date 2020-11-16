@@ -19,8 +19,6 @@ const Blog = (props) => {
     blogContent(id);
   }, []);
 
-  console.log(blog);
-
   const blogLayout = () => (
     <div className="container">
       <section class="blog-head">

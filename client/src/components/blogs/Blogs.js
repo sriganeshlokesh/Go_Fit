@@ -17,8 +17,6 @@ const Blogs = () => {
     getBlog();
   }, []);
 
-  console.log(blogs);
-
   const blogLayout = () => (
     <div className="container">
       <header

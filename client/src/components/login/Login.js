@@ -10,11 +10,9 @@ const Login = () => {
     email: "",
     password: "",
     errors: "",
-    redirect: false,
   });
 
-  const { email, password, errors, redirect } = input;
-  const { user } = isAuthenticated();
+  const { email, password, errors } = input;
 
   const handleChange = (name) => (event) => {
     setInput({ ...input, errors: false, [name]: event.target.value });

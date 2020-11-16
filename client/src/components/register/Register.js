@@ -18,8 +18,6 @@ const Register = () => {
 
   const { name, email, password, password2, phone, errors, redirect } = input;
 
-  const { user } = isAuthenticated();
-
   const handleChange = (name) => (event) => {
     setInput({ ...input, errors: false, [name]: event.target.value });
   };
