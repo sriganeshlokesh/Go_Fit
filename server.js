@@ -3,6 +3,7 @@ const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const PORT = 5000 || process.env.PORT;
@@ -38,6 +39,9 @@ app.use(morgan("dev"));
 
 // Cookie Parser Middleware
 app.use(cookieParser());
+
+// Cors Middlware
+app.use(cors());
 
 // Routes Middleware
 app.use("/api/auth", auth);
