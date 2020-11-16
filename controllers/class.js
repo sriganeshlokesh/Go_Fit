@@ -163,7 +163,7 @@ exports.deleteClass = (req, res) => {
 exports.getAllClasses = (req, res) => {
   let errors = {};
   let order = req.query.order ? req.query.order : "asc";
-  let limit = req.query.limit ? req.query.limit : 6;
+  let limit = req.query.limit && parseInt(req.query.limit);
   Class.find()
     .populate("teacher slot")
     .sort([[order]])

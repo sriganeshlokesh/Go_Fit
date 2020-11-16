@@ -1,6 +1,30 @@
 import axios from "axios";
 
+export const getUser = (id, token) => {
+  return axios
+    .get(`/api/user/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};
+
 export const getClasses = () => {
+  return axios
+    .get("/api/class/all/class?limit=6")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getAllClasses = () => {
   return axios
     .get("/api/class/all/class")
     .then((res) => {
@@ -58,6 +82,20 @@ export const getBookings = (id, bookingId, token) => {
 export const bookAppointment = (classId, id, token) => {
   return axios
     .post(`/api/appointment/create/${id}/${classId}`, null, {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};
+
+// User Booking History
+export const getUserHistory = (id, token) => {
+  return axios
+    .get(`/api/user/history/${id}`, {
       headers: {
         Authorization: token,
       },

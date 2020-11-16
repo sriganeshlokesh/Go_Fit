@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getClasses } from "../../actions/apiCore";
+import { getAllClasses } from "../../actions/apiCore";
 import "./styles.css";
 
 const Classes = () => {
   const [classes, setClasses] = useState([]);
 
   const getClass = () => {
-    getClasses().then((res) => {
+    getAllClasses().then((res) => {
       setClasses(res);
     });
   };

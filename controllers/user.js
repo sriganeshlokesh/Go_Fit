@@ -15,6 +15,19 @@ exports.userById = (req, res, next, id) => {
   });
 };
 
+// Get user
+exports.getUser = (req, res) => {
+  User.findById(req.params.id).exec((err, user) => {
+    if (err) {
+      return res.status(400).json({
+        errors: err,
+      });
+    } else {
+      return res.json(user);
+    }
+  });
+};
+
 // Get All Customers
 exports.getAllUsers = (req, res) => {
   let errors = {};
@@ -70,6 +83,20 @@ exports.deleteAppointmentHistory = (req, res, next) => {
 exports.getUserHistory = (req, res) => {
   Appointment.find({ user: req.params.id })
     .populate("user class")
+    .populate({
+      path: "class",
+      populate: {
+        path: "teacher",
+        model: "Teacher",
+      },
+    })
+    .populate({
+      path: "class",
+      populate: {
+        path: "slot",
+        model: "Slot",
+      },
+    })
     .sort("-created")
     .exec((err, booking) => {
       if (err) {
