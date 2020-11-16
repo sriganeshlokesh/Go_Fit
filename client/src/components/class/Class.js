@@ -75,7 +75,9 @@ const Class = (props) => {
             {class_data.booking &&
               class_data.booking.map((item) => (
                 <div>
-                  {class_data.booking.length > 0 && item.user === user._id ? (
+                  {isAuthenticated() &&
+                  class_data.booking.length > 0 &&
+                  item.user === user._id ? (
                     <div className="booked_class">
                       <span>You have already booked this class</span>
                       <Link to={`/classes`} class="btn class-join">
@@ -98,7 +100,7 @@ const Class = (props) => {
               </Link>
             )}
 
-            {!isAuthenticated() && class_data.booking.length === 0 && (
+            {!isAuthenticated() && (
               <div className="login-class">
                 <span>Login to Book this Class</span>
                 <Link to={`/login`} class="btn class-join">
