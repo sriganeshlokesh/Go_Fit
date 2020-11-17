@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getClass } from "../../actions/apiCore";
+import { getClass, getUserHistory } from "../../actions/apiCore";
 import { isAuthenticated } from "../../actions/auth";
 import "./styles.css";
 
@@ -18,8 +18,10 @@ const Class = (props) => {
     duration: 0,
     booking: [],
   });
+
+  const [userHistory, setUserHistory] = useState([]);
   const id = props.match.params.classId;
-  const { user } = isAuthenticated();
+  const { user, token } = isAuthenticated();
   const getClassData = (classId) => {
     getClass(classId)
       .then((data) => {
@@ -36,14 +38,54 @@ const Class = (props) => {
           duration: data.duration,
           booking: data.booking,
         });
+        hasBooked(data);
       })
       .catch((err) => console.log(err));
   };
+  const [book, setBook] = useState(false);
+
+  const getUserHistoryData = (userId, token) => {
+    getUserHistory(userId, token).then((res) => {
+      setUserHistory(res);
+    });
+  };
+  console.log(userHistory);
+
+  const joinNow = () => (
+    <Link to={`/appointment/${class_data.id}`} class="btn class-join">
+      Join Now
+    </Link>
+  );
+
+  const browseClasses = () => (
+    <div className="booked_class">
+      <span>You have already booked this class</span>
+      <Link to={`/classes`} class="btn class-join">
+        Browse Classes
+      </Link>
+    </div>
+  );
 
   useEffect(() => {
     getClassData(id);
+    if (isAuthenticated()) {
+      getUserHistoryData(user._id, token);
+    }
+
     window.scrollTo(0, 0);
   }, []);
+
+  const hasBooked = (data) => {
+    data.booking.map((item) => {
+      if (user._id === item.user) {
+        setBook(true);
+      } else {
+        setBook(false);
+      }
+    });
+  };
+
+  console.log(book);
 
   const classLayout = () => (
     <div>
@@ -70,33 +112,8 @@ const Class = (props) => {
                 {class_data.slot.time}
               </p>
             </div>
-            {class_data.booking &&
-              class_data.booking.map((item) => (
-                <div>
-                  {isAuthenticated() && item.user === user._id && (
-                    <div className="booked_class">
-                      <span>You have already booked this class</span>
-                      <Link to={`/classes`} class="btn class-join">
-                        Browse Classes
-                      </Link>
-                    </div>
-                  )}
-                  {isAuthenticated() && item.user !== user._id && (
-                    <Link
-                      to={`/appointment/${class_data.id}`}
-                      class="btn class-join"
-                    >
-                      Join Now
-                    </Link>
-                  )}
-                </div>
-              ))}
-            {isAuthenticated() && class_data.booking.length === 0 && (
-              <Link to={`/appointment/${class_data.id}`} class="btn class-join">
-                Join Now
-              </Link>
-            )}
-
+            {isAuthenticated() && book && browseClasses()}
+            {isAuthenticated() && !book && joinNow()}
             {!isAuthenticated() && (
               <div className="login-class">
                 <span>Login to Book this Class</span>
