@@ -79,8 +79,6 @@ const Class = (props) => {
     data.booking.map((item) => {
       if (user._id === item.user) {
         setBook(true);
-      } else {
-        setBook(false);
       }
     });
   };
