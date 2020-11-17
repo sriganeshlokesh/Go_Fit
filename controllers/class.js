@@ -183,7 +183,6 @@ exports.appointmentToBooking = (req, res, next) => {
   let bookingItem = new Booking({
     user: req.params.id,
   });
-  console.log(bookingItem);
   booking.push(bookingItem);
   Class.findByIdAndUpdate(
     { _id: req.params.classId },
@@ -198,6 +197,21 @@ exports.appointmentToBooking = (req, res, next) => {
         error: "Could not add appointment to booking",
       });
     });
+};
+
+// Delete User from booking
+exports.appointmentFromBooking = (req, res, next) => {
+  Class.updateOne(
+    { _id: req.class._id },
+    { $pull: { booking: { user: req.profile._id } } }
+  ).then((data) => {
+    if (!data) {
+      return res.status(400).json({
+        errors: "Not Updated",
+      });
+    }
+    next();
+  });
 };
 
 // Decrease Class Capacity after Booking Appointment

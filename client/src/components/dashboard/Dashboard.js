@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { isAuthenticated } from "../../actions/auth";
-import { Link } from "react-router-dom";
-import { getUserHistory, getUser } from "../../actions/apiCore";
+import {
+  getUserHistory,
+  getUser,
+  cancelAppointment,
+} from "../../actions/apiCore";
 import "./styles.css";
 
 const Dashboard = () => {
@@ -93,6 +96,22 @@ const Dashboard = () => {
                             </div>
                             <div class="col right">
                               <div class="row no-gutters justify-content-center align-items-center">
+                                <div className="delete-booking">
+                                  <button
+                                    onClick={() => {
+                                      cancelAppointment(
+                                        booking._id,
+                                        booking.class._id,
+                                        user._id,
+                                        token
+                                      ).then(() => {
+                                        userHistory(user._id, token);
+                                      });
+                                    }}
+                                  >
+                                    <i class="fas fa-times fa-fw"></i>
+                                  </button>
+                                </div>
                                 <div class="view">
                                   <p>
                                     Date:{" "}
@@ -100,9 +119,10 @@ const Dashboard = () => {
                                       "MMMM Do YYYY"
                                     )}
                                   </p>
-                                </div>
-                                <div class="text-center">
-                                  Booked: {moment(booking.createdAt).fromNow()}
+                                  <div className="booked">
+                                    Booked:{" "}
+                                    {moment(booking.createdAt).fromNow()}
+                                  </div>
                                 </div>
                               </div>
                             </div>

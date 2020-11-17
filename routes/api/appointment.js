@@ -18,6 +18,7 @@ const {
   classById,
   increaseCapacity,
   appointmentToBooking,
+  appointmentFromBooking,
 } = require("../../controllers/class");
 
 // @route GET /api/appointment/:appointmentId
@@ -46,6 +47,7 @@ router.delete(
   protect,
   isAuth,
   increaseCapacity,
+  appointmentFromBooking,
   deleteAppointmentHistory,
   cancelAppointment
 );

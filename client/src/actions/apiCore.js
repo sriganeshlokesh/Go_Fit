@@ -88,6 +88,19 @@ export const bookAppointment = (classId, id, token) => {
     .catch((err) => console.log(err));
 };
 
+export const cancelAppointment = (appointmentId, classId, id, token) => {
+  return axios
+    .delete(`/api/appointment/${appointmentId}/${classId}/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};
+
 // User Booking History
 export const getUserHistory = (id, token) => {
   return axios

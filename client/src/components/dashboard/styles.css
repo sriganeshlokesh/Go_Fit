@@ -6,3 +6,26 @@ a {
 ul {
   list-style: none;
 }
+
+.view {
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+}
+
+.delete-booking {
+  margin-left: 250px;
+}
+
+.delete-booking button {
+  background-color: red;
+  color: white;
+  width: 30px;
+  border: none;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+.card {
+  margin-bottom: 40px;
+}
