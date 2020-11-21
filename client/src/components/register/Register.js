@@ -71,12 +71,12 @@ const Register = () => {
                     className={classnames("form-control", {
                       "is-invalid": errors.name,
                     })}
-                    placeholder="Username"
+                    placeholder="Full Name"
                   />
                   {errors.name && (
                     <div className="invalid-feedback">{errors.name}</div>
                   )}
-                  <label for="inputUsername">Username</label>
+                  <label for="inputUsername">Full Name</label>
                 </div>
 
                 <div class="form-label-group">
