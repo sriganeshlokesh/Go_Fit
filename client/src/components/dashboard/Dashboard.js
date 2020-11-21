@@ -57,7 +57,7 @@ const Dashboard = () => {
                 </div>
                 <div class="row mt-2">
                   <div className="col-1">
-                    <i class="fas fa-running"></i>
+                    <i class="fas fa-walking"></i>
                   </div>
                   <div class="col">
                     Joined: {moment(customer.createdAt).format("MMMM Do YYYY")}
@@ -80,7 +80,7 @@ const Dashboard = () => {
                               <div class="row no-gutters align-content-center">
                                 <div>
                                   <span class="fa-stack fa-lg">
-                                    <i class="fa fa-truck fa-fw"></i>
+                                    <i class="fas fa-running"></i>
                                   </span>
                                 </div>
                                 <div class="col">
