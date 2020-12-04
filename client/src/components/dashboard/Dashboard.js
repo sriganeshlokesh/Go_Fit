@@ -89,7 +89,10 @@ const Dashboard = () => {
                                   <p>
                                     Instructor: {booking.class.teacher.name}
                                   </p>
-                                  <p>Date: {booking.class.day}</p>
+                                  <p>
+                                    Date:{" "}
+                                    {moment(booking.class.date).format("dddd")}
+                                  </p>
                                   <p>Slot: {booking.class.slot.time}</p>
                                 </div>
                               </div>
