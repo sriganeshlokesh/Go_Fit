@@ -74,7 +74,7 @@ const Dashboard = () => {
                   <ul class="list-group">
                     {bookingHistory.length > 0 &&
                       bookingHistory.map((booking, index) => (
-                        <li class="list-group-item">
+                        <li class="list-group-item" key={index}>
                           <div class="row no-gutters">
                             <div class="col">
                               <div class="row no-gutters align-content-center">
@@ -90,7 +90,7 @@ const Dashboard = () => {
                                     Instructor: {booking.class.teacher.name}
                                   </p>
                                   <p>
-                                    Date:{" "}
+                                    Day:{" "}
                                     {moment(booking.class.date).format("dddd")}
                                   </p>
                                   <p>Slot: {booking.class.slot.time}</p>
